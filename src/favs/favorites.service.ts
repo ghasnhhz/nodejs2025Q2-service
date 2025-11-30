@@ -32,9 +32,7 @@ export class FavoritesService {
     const track = db.tracks.find((track) => track.id === id);
 
     if (!track) {
-      throw new UnprocessableEntityException(
-        `There is not a track with id: ${id}`,
-      );
+      throw new UnprocessableEntityException("Track with id doesn't exist.");
     }
 
     if (db.favorites.tracks.includes(id)) {
@@ -53,7 +51,7 @@ export class FavoritesService {
     }
 
     if (!db.favorites.tracks.includes(id)) {
-      throw new NotFoundException('Track not found in favorites');
+      throw new NotFoundException('Track was not found.');
     }
 
     db.favorites.tracks = db.favorites.tracks.filter(
@@ -75,7 +73,7 @@ export class FavoritesService {
     }
 
     if (db.favorites.albums.includes(id)) {
-      return { message: `Album '${album.name}' is already in favorites` };
+      return { message: "Album with id doesn't exist." };
     }
 
     db.favorites.albums.push(id);
@@ -90,7 +88,7 @@ export class FavoritesService {
     }
 
     if (!db.favorites.albums.includes(id)) {
-      throw new NotFoundException('Album not found in favorites');
+      throw new NotFoundException('Album was not found.');
     }
 
     db.favorites.albums = db.favorites.albums.filter(
@@ -117,7 +115,7 @@ export class FavoritesService {
 
     db.favorites.artists.push(id);
     return {
-      message: `Artist ${artist.name} was added to favorite artists successfully`,
+      message: "Artist with id doesn't exist.",
     };
   }
 
@@ -127,7 +125,7 @@ export class FavoritesService {
     }
 
     if (!db.favorites.artists.includes(id)) {
-      throw new NotFoundException('Artist not found in favorites');
+      throw new NotFoundException('Artist was not found.');
     }
 
     db.favorites.artists = db.favorites.artists.filter(

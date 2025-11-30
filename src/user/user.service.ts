@@ -32,7 +32,7 @@ export class UserService {
     const user = db.users.find((user) => user.id === id);
 
     if (!user) {
-      throw new NotFoundException(`Not not found`);
+      throw new NotFoundException(`Not not found.`);
     }
 
     return {
@@ -83,11 +83,11 @@ export class UserService {
     const user = db.users.find((user) => user.id === id);
 
     if (!user) {
-      throw new NotFoundException(`User with id: ${id} not found!`);
+      throw new NotFoundException(`User not found.`);
     }
 
     if (user.password !== updatePasswordDto.oldPassword) {
-      throw new ForbiddenException('Old password does not match!');
+      throw new ForbiddenException('Old password is wrong!');
     }
 
     user.password = updatePasswordDto.newPassword;
@@ -111,7 +111,7 @@ export class UserService {
     const user = db.users.find((user) => user.id === id);
 
     if (!user) {
-      throw new NotFoundException(`User with id: ${id} not found!`);
+      throw new NotFoundException(`User not found.`);
     }
 
     db.users = db.users.filter((user) => user.id !== id);

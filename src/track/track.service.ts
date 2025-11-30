@@ -21,7 +21,7 @@ export class TrackService {
     const track = db.tracks.find((track) => track.id === id);
 
     if (!track) {
-      throw new NotFoundException(`Track with id: ${id} not found!`);
+      throw new NotFoundException(`Track was not found.`);
     }
 
     return track;
@@ -49,7 +49,7 @@ export class TrackService {
     const track = db.tracks.find((track) => track.id === id);
 
     if (!track) {
-      throw new NotFoundException(`Track with id: ${id} not found!`);
+      throw new NotFoundException(`Track was not found.`);
     }
 
     Object.assign(track, updatedTrackDto);
@@ -71,7 +71,7 @@ export class TrackService {
     const track = db.tracks.find((track) => track.id === id);
 
     if (!track) {
-      throw new NotFoundException(`Track with id: ${id} not found!`);
+      throw new NotFoundException(`Track was not found.`);
     }
 
     db.favorites.tracks = db.favorites.tracks.filter(

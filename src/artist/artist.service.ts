@@ -21,7 +21,7 @@ export class ArtistService {
     const artist = db.artists.find((artist) => artist.id === id);
 
     if (!artist) {
-      throw new NotFoundException(`Artist with id: ${id} not found!`);
+      throw new NotFoundException(`Artist was not found.`);
     }
 
     return artist;
@@ -48,20 +48,6 @@ export class ArtistService {
       throw new BadRequestException('Invalid artistId format!');
     }
 
-    if (
-      updatedArtistDto.name !== undefined &&
-      typeof updatedArtistDto.name !== 'string'
-    ) {
-      throw new BadRequestException('Invalid name value');
-    }
-
-    if (
-      updatedArtistDto.grammy !== undefined &&
-      typeof updatedArtistDto.grammy !== 'boolean'
-    ) {
-      throw new BadRequestException('Invalid grammy value');
-    }
-
     const artist = db.artists.find((artist) => artist.id === id);
 
     if (!artist) {
@@ -85,7 +71,7 @@ export class ArtistService {
     const artist = db.artists.find((artist) => artist.id === id);
 
     if (!artist) {
-      throw new NotFoundException(`Artist with id: ${id} not found!`);
+      throw new NotFoundException(`Artist was not found.`);
     }
 
     db.favorites.artists = db.favorites.artists.filter(

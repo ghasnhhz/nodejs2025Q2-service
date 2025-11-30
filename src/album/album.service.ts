@@ -21,7 +21,7 @@ export class AlbumService {
     const album = db.albums.find((album) => album.id === id);
 
     if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found!`);
+      throw new NotFoundException(`Album was not found.`);
     }
 
     return album;
@@ -52,7 +52,7 @@ export class AlbumService {
     const album = db.albums.find((album) => album.id === id);
 
     if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found!`);
+      throw new NotFoundException(`Album was not found.`);
     }
 
     Object.assign(album, updatedAlbumDto);
@@ -73,7 +73,7 @@ export class AlbumService {
     const album = db.albums.find((album) => album.id === id);
 
     if (!album) {
-      throw new NotFoundException(`Album with id: ${id} not found!`);
+      throw new NotFoundException(`Album was not found.`);
     }
 
     db.favorites.albums = db.favorites.albums.filter(
