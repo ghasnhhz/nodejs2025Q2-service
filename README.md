@@ -16,6 +16,11 @@ git clone {repository URL}
 ```
 npm install
 ```
+## Make a copy of .env.example and rename it to .env
+
+```
+.env.example -> .env
+```
 
 ## Running application
 
@@ -23,9 +28,75 @@ npm install
 npm start
 ```
 
+### By default, the server runs on:
+
+```
+http://localhost:4000
+```
+
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
+
+## API Usage
+
+### Users
+---
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/user` | Get all users |
+| GET | `/user/:id` | Get user by ID |
+| POST | `/user` | Create a new user |
+| PUT | `/user/:id` | Update user |
+| DELETE | `/user/:id` | Delete user |
+
+### Artists
+---
+
+| Method | Endpoint | Description | 
+|--------|----------|-------------| 
+| GET | `/artist` | Get all artists | 
+| GET | `/artist/:id` | Get artist by ID | 
+| POST | `/artist` | Create a new artist | 
+| PUT | `/artist/:id` | Update artist | 
+| DELETE | `/artist/:id` | Delete artist |
+
+### Albums
+---
+
+| Method | Endpoint | Description | 
+|--------|----------|-------------| 
+| GET | `/album` | Get all albums | 
+| GET | `/album/:id` | Get album by ID | 
+| POST | `/album` | Create a new album | 
+| PUT | `/album/:id` | Update album | 
+| DELETE | `/album/:id` | Delete album |
+
+### Tracks
+---
+
+| Method | Endpoint | Description | 
+|--------|----------|-------------| 
+| GET | `/track` | Get all tracks | 
+| GET | `/track/:id` | Get track by ID | 
+| POST | `/track` | Create a new track | 
+| PUT | `/track/:id` | Update track | 
+| DELETE | `/track/:id` | Delete track |
+
+### Favorites
+---
+
+| Method | Endpoint | Description | 
+|--------|----------|-------------| 
+| GET | `/favs` | Get all favorites | 
+| POST | `/favs/track/:id` | Add track to favorites | 
+| POST | `/favs/album/:id` | Add album to favorites | 
+| POST | `/favs/artist/:id` | Add artist to favorites | 
+| DELETE | `/favs/track/:id` | Remove track from favorites | 
+| DELETE | `/favs/album/:id` | Remove album from favorites | 
+| DELETE | `/favs/artist/:id` | Remove artist from favorites |
+
 
 ## Testing
 
