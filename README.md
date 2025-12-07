@@ -11,21 +11,40 @@
 git clone {repository URL}
 ```
 
-## Installing NPM modules
-
 ```
-npm install
+cd nodejs2025Q2-service
 ```
 
-## Running application
+## Running the application with docker compose
+```
+docker-compose up --build
+```
+
+### Note: docker-compose will also run Prisma migrations automatically
+
+## To start the container:
 
 ```
-npm start
+docker-compose up -d
 ```
 
-After starting the app on port (4000 as default) you can open
-in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
+## To stop the container:
+
+```
+docker-compose down
+```
+
+## To pull the image
+
+```
+docker pull shahkar1001/home-library:dev
+```
+
+and 
+
+```
+docker image ls
+```
 
 ## Testing
 

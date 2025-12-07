@@ -1,13 +1,3 @@
-import { User } from '../user/interfaces/user.interface';
+import { PrismaClient } from '@prisma/client';
 
-export const db = {
-  users: [] as User[],
-  artists: [],
-  albums: [],
-  tracks: [],
-  favorites: {
-    artists: [],
-    albums: [],
-    tracks: [],
-  },
-};
+export const prisma = new PrismaClient();

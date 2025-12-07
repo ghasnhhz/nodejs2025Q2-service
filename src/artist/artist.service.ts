@@ -1,95 +1,110 @@
 import { Injectable } from '@nestjs/common';
-import { db } from '../common/database';
+import { prisma } from '../common/database';
 import { Artist } from './interfaces/artist.interface';
 import { ArtistResponseDto } from './dto/artist-response.dto';
 import { CreateArtistDto } from './dto/create-artist.dto';
-import { generateId } from '../common/uuid';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { validate as isUUID } from 'uuid';
 
 @Injectable()
 export class ArtistService {
-  findAll(): ArtistResponseDto[] {
-    return db.artists;
+  async findAll(): Promise<ArtistResponseDto[]> {
+    const artists = await prisma.artist.findMany();
+
+    return artists;
   }
 
-  findOne(id: string): ArtistResponseDto {
+  async findOne(id: string): Promise<ArtistResponseDto> {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid artistId format!');
     }
 
-    const artist = db.artists.find((artist) => artist.id === id);
+    const artist = await prisma.artist.findUnique({
+      where: { id },
+    });
 
     if (!artist) {
-      throw new NotFoundException(`Artist was not found.`);
+      throw new NotFoundException('Artist was not found.');
     }
 
     return artist;
   }
 
-  create(dto: CreateArtistDto): ArtistResponseDto {
+  async create(dto: CreateArtistDto): Promise<ArtistResponseDto> {
     if (!dto.name || dto.grammy === undefined) {
       throw new BadRequestException('Please provide all required fields!');
     }
 
-    const newArtist: Artist = {
-      id: generateId(),
-      name: dto.name,
-      grammy: dto.grammy,
-    };
-
-    db.artists.push(newArtist);
+    const newArtist = await prisma.artist.create({
+      data: {
+        name: dto.name,
+        grammy: dto.grammy,
+      },
+    });
 
     return newArtist;
   }
 
-  update(id: string, updatedArtistDto: Partial<Artist>): ArtistResponseDto {
+  async update(
+    id: string,
+    updatedArtistDto: Partial<Artist>,
+  ): Promise<ArtistResponseDto> {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid artistId format!');
     }
 
-    const artist = db.artists.find((artist) => artist.id === id);
+    const artist = await prisma.artist.findUnique({
+      where: { id },
+    });
 
     if (!artist) {
       throw new NotFoundException(`Artist with id: ${id} not found!`);
     }
 
-    Object.assign(artist, updatedArtistDto);
+    const updatedArtist = await prisma.artist.update({
+      where: { id },
+      data: updatedArtistDto,
+    });
 
-    return {
-      id: artist.id,
-      name: artist.name,
-      grammy: artist.grammy,
-    };
+    return updatedArtist;
   }
 
-  delete(id: string): void {
+  async delete(id: string): Promise<void> {
     if (!isUUID(id)) {
       throw new BadRequestException('Invalid artistId format!');
     }
 
-    const artist = db.artists.find((artist) => artist.id === id);
+    const artist = await prisma.artist.findUnique({
+      where: { id },
+    });
 
     if (!artist) {
       throw new NotFoundException(`Artist was not found.`);
     }
 
-    db.favorites.artists = db.favorites.artists.filter(
-      (artistId) => artistId !== id,
-    );
+    const favorites = await prisma.favorites.findFirst();
 
-    db.albums.forEach((album) => {
-      if (album.artistId === id) {
-        album.artistId = null;
-      }
+    if (favorites) {
+      await prisma.favorites.update({
+        where: { id: favorites.id },
+        data: {
+          artists: favorites.artists.filter((artistId) => artistId !== id),
+        },
+      });
+    }
+
+    await prisma.album.updateMany({
+      where: { artistId: id },
+      data: { artistId: null },
     });
 
-    db.tracks.forEach((track) => {
-      if (track.artistId === id) {
-        track.artistId = null;
-      }
+    await prisma.track.updateMany({
+      where: { artistId: id },
+      data: { artistId: null },
     });
 
-    db.artists = db.artists.filter((artist) => artist.id !== id);
+    await prisma.artist.delete({
+      where: { id },
+    });
   }
 }

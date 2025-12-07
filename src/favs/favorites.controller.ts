@@ -21,7 +21,7 @@ export class FavoritesController {
   @Delete('track/:id')
   @HttpCode(204)
   async deleteTrack(@Param('id') id: string) {
-    this.favoritesService.deleteTrack(id);
+    await this.favoritesService.deleteTrack(id);
   }
 
   @Post('album/:id')
@@ -33,7 +33,7 @@ export class FavoritesController {
   @Delete('album/:id')
   @HttpCode(204)
   async deleteAlbum(@Param('id') id: string) {
-    this.favoritesService.deleteAlbum(id);
+    await this.favoritesService.deleteAlbum(id);
   }
 
   @Post('artist/:id')
@@ -45,6 +45,6 @@ export class FavoritesController {
   @Delete('artist/:id')
   @HttpCode(204)
   async deleteArtist(@Param('id') id: string) {
-    this.favoritesService.deleteArtist(id);
+    await this.favoritesService.deleteArtist(id);
   }
 }

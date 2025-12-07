@@ -19,12 +19,12 @@ export class TrackController {
 
   @Get()
   async findAll(): Promise<TrackResponseDto[]> {
-    return this.trackService.findAll();
+    return await this.trackService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<TrackResponseDto> {
-    return this.trackService.findOne(id);
+    return await this.trackService.findOne(id);
   }
 
   @Post()
@@ -32,7 +32,7 @@ export class TrackController {
   async create(
     @Body() createTrackDto: CreateTrackDto,
   ): Promise<TrackResponseDto> {
-    return this.trackService.create(createTrackDto);
+    return await this.trackService.create(createTrackDto);
   }
 
   @Put(':id')
@@ -40,12 +40,12 @@ export class TrackController {
     @Param('id') id: string,
     @Body() updatedTrackDto: UpdateTrackDto,
   ): Promise<TrackResponseDto> {
-    return this.trackService.update(id, updatedTrackDto);
+    return await this.trackService.update(id, updatedTrackDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') id: string) {
-    this.trackService.delete(id);
+    await this.trackService.delete(id);
   }
 }
