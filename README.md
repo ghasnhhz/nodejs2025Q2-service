@@ -10,22 +10,33 @@
 ```
 git clone {repository URL}
 ```
-
-## Installing NPM modules
-
 ```
-npm install
+cd nodejs2025Q2-service
 ```
+
 ## Make a copy of .env.example and rename it to .env
 
 ```
 .env.example -> .env
 ```
 
-## Running application
+## Running the application with docker compose
+```
+docker-compose up --build
+```
+
+### Note: docker-compose will also run Prisma migrations automatically
+
+## To start the container:
 
 ```
-npm start
+docker-compose up -d
+```
+
+## To stop the container:
+
+```
+docker-compose down
 ```
 
 ### By default, the server runs on:
