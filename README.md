@@ -39,6 +39,15 @@ docker-compose up -d
 docker-compose down
 ```
 
+## To pull the image 
+```
+docker pull shahkar1001/home-library:dev
+```
+and 
+```
+docker image ls
+```
+
 ### By default, the server runs on:
 
 ```
