@@ -20,15 +20,13 @@ import { AuthModule } from './auth/auth.module';
     AlbumModule,
     FavoritesModule,
     LoggingModule,
-    AuthModule
+    AuthModule,
   ],
   controllers: [],
   providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggingMiddleware)
-      .forRoutes('*');
+    consumer.apply(LoggingMiddleware).forRoutes('*');
   }
 }

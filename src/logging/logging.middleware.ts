@@ -8,20 +8,22 @@ export class LoggingMiddleware implements NestMiddleware {
 
   use(req: Request, res: Response, next: NextFunction) {
     const { method, originalUrl, query, body } = req;
-    
-    const queryString = Object.keys(query).length > 0 ? JSON.stringify(query) : 'none';
-    const bodyString = Object.keys(body).length > 0 ? JSON.stringify(body) : 'none';
-    
+
+    const queryString =
+      Object.keys(query).length > 0 ? JSON.stringify(query) : 'none';
+    const bodyString =
+      Object.keys(body).length > 0 ? JSON.stringify(body) : 'none';
+
     this.loggingService.log(
-      `Incoming Request: ${method} ${originalUrl} | Query: ${queryString} | Body: ${bodyString}`
+      `Incoming Request: ${method} ${originalUrl} | Query: ${queryString} | Body: ${bodyString}`,
     );
 
     const oldSend = res.send;
     const loggingService = this.loggingService;
-    
-    res.send = function(data: any) {
+
+    res.send = function (data: any) {
       loggingService.log(
-        `Response: ${method} ${originalUrl} | Status: ${res.statusCode}`
+        `Response: ${method} ${originalUrl} | Status: ${res.statusCode}`,
       );
       res.send = oldSend;
       return res.send(data);

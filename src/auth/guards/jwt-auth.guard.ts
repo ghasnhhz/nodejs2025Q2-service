@@ -35,21 +35,24 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     const [scheme, token] = authHeader.split(' ');
-    
+
     if (scheme !== 'Bearer' || !token) {
-      throw new UnauthorizedException('Invalid authorization scheme. Expected Bearer token');
+      throw new UnauthorizedException(
+        'Invalid authorization scheme. Expected Bearer token',
+      );
     }
 
     try {
-      const secret = this.configService.get<string>('JWT_SECRET_KEY') || 'test_secret';
+      const secret =
+        this.configService.get<string>('JWT_SECRET_KEY') || 'test_secret';
       if (!secret) {
         throw new UnauthorizedException('JWT secret is not configured');
       }
-      
+
       const payload = jwt.verify(token, secret);
-    
+
       (request as any).user = payload;
-      
+
       return true;
     } catch (error) {
       if (error instanceof jwt.TokenExpiredError) {

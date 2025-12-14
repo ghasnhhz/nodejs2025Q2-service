@@ -1,7 +1,10 @@
-import { Injectable, BadRequestException, ForbiddenException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import { SignOptions } from 'jsonwebtoken';
 import { ConfigService } from '@nestjs/config';
 import { prisma } from '../common/database';
 import { SignupDto } from './dto/signup.dto';
@@ -14,24 +17,24 @@ export class AuthService {
 
   async signup(signupDto: SignupDto) {
     const { login, password } = signupDto;
-  
+
     const existingUser = await prisma.user.findUnique({
       where: { login },
     });
-  
+
     if (existingUser) {
       throw new BadRequestException('User with this login already exists');
     }
-  
+
     const hashedPassword = await bcrypt.hash(password, 10);
-  
+
     await prisma.user.create({
       data: {
         login,
         password: hashedPassword,
       },
     });
-  
+
     return {
       message: 'User created successfully',
     };
@@ -103,25 +106,29 @@ export class AuthService {
 
   private generateAccessToken(userId: string, login: string): string {
     const payload = { userId, login };
-    const secret = this.configService.get<string>('JWT_SECRET_KEY') || 'test_secret';
+    const secret =
+      this.configService.get<string>('JWT_SECRET_KEY') || 'test_secret';
     if (!secret) {
       throw new Error('JWT_SECRET_KEY is not defined');
     }
-    const expiresIn = this.configService.get<string>('TOKEN_EXPIRE_TIME') || '1h';
-    
+    const expiresIn =
+      this.configService.get<string>('TOKEN_EXPIRE_TIME') || '1h';
+
     return jwt.sign(payload, secret, { expiresIn } as jwt.SignOptions);
   }
 
   private generateRefreshToken(userId: string, login: string): string {
     const payload = { userId, login };
-  
-    const secret = this.configService.get<string>('JWT_SECRET_REFRESH_KEY') || 'test_secret';
+
+    const secret =
+      this.configService.get<string>('JWT_SECRET_REFRESH_KEY') || 'test_secret';
     if (!secret) {
       throw new Error('JWT_SECRET_REFRESH_KEY is not defined');
     }
-  
-    const expiresIn = this.configService.get<string>('TOKEN_REFRESH_EXPIRE_TIME') || '24h';
-  
+
+    const expiresIn =
+      this.configService.get<string>('TOKEN_REFRESH_EXPIRE_TIME') || '24h';
+
     return jwt.sign(payload, secret, { expiresIn } as jwt.SignOptions);
   }
 }

@@ -5,7 +5,7 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshDto } from './dto/refresh.dto';
 import { Public } from './decorators/public.decorator';
 
-@Controller('auth') 
+@Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
